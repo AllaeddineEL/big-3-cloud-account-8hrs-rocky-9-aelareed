@@ -1,0 +1,25 @@
+slug: big-3-cloud-account-8hrs-rocky-9-aelareed
+id: oxq9hn4mk5ly
+title: Cloud Accounts (aelareed)
+teaser: Use a sandbox with multiple cloud accounts
+description: |-
+  Use sandboxed AWS, Azure and GCP accounts for development.
+
+  **Preinstalled items on the CLI:**
+    - HashiCorp: terraform, vault, consul, nomad, boundary, waypoint, packer
+    - General: jq, curl, wget, aws-cli, docker, git
+
+  The track CLI runs on a GCP VM roughly equivalent to a t3.small instance, running Rocky Linux 9 (`rocky-linux-cloud/rocky-linux-9`), but allows provisioning any allowed size of instance or virtual machine with any available image.
+icon: https://cdn.instruqt.com/assets/templates/cloud.png
+tags:
+- AWS
+- ' Azure'
+- ' GCP'
+- ' Cloud Account'
+- ' Docker'
+- ' Rocky-9'
+owner: hashicorp
+developers:
+- allaeddine.elareed@hashicorp.com
+show_timer: true
+checksum: "4193749242821820559"

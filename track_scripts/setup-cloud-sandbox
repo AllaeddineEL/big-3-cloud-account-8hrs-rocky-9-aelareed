@@ -1,0 +1,105 @@
+#!/bin/bash
+set -euxo pipefail
+
+until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]; do
+    echo "Waiting for instruqt bootstrap to complete"
+    sleep 1
+done
+
+# Add any package-related scripting here like configuring additional repos.
+dnf config-manager --set-enabled crb
+dnf install -y epel-release
+
+curl -o /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo
+curl -o /etc/yum.repos.d/hashicorp.repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+
+rpm --import https://packages.microsoft.com/keys/microsoft.asc 
+
+dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
+
+echo -e "[azure-cli]
+name=Azure CLI
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
+
+
+semodule -B
+
+dnf makecache -y
+dnf update -y 
+
+# Packages to be installed.  Set to an empty string if nothing is needed.
+PACKAGE_LIST="docker-ce docker-ce-cli containerd.io docker-compose-plugin git jq curl wget gpg terraform vault consul nomad boundary waypoint packer awscli azure-cli" # google-cloud-cli
+
+# Services to be enabled and started
+SERVICE_LIST="docker"
+
+if ! [[ -z "$PACKAGE_LIST" ]]; then
+  dnf install -y $PACKAGE_LIST
+fi
+
+if ! [[ -z "$SERVICE_LIST" ]]; then
+  systemctl enable --now $SERVICE_LIST
+fi
+
+# Install Azure CLI
+
+# Let az install the kubectl command
+az aks install-cli
+
+# install helm 
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+#rm ./get_helm.sh
+
+# Install Code server
+
+mkdir -p /root/.local/share/code-server/User
+
+cat > /root/.local/share/code-server/User/settings.json <<-EOF
+{
+   "workbench.colorTheme": "Default Dark+",
+   "workbench.startupEditor": "none",
+   "terraform.experimentalFeatures.prefillRequiredFields": true,
+   "terraform.experimentalFeatures.validateOnSave": true,
+   "editor.formatOnSave": true,
+   "terminal.integrated.copyOnSelection": true,
+   "security.workspace.trust.enabled": false
+}
+EOF
+
+curl -fsSL https://code-server.dev/install.sh | sh
+
+# Create Code Server startup script
+cat <<-EOF > /etc/systemd/system/code-server.service
+[Unit]
+Description=Code Server
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/usr/bin/code-server --bind-addr 0.0.0.0:8080 --disable-telemetry --disable-update-check --auth none /root
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Start Code Server
+systemctl enable code-server
+systemctl start code-server
+
+firewall-cmd --add-port={8080,80,443}/tcp --permanent
+firewall-cmd --reload
+
+code-server --install-extension hashicorp.terraform
+
+# Enable bash completion for kubectl
+echo "source /usr/share/bash-completion/bash_completion" >> /root/.bashrc
+echo "complete -F __start_kubectl k" >> /root/.bashrc

@@ -1,0 +1,30 @@
+version: "3"
+containers:
+  - name: cloud-account-details
+    image: gcr.io/instruqt/cloud-client
+    shell: /bin/bash
+    ports:
+      - 80
+    memory: 256
+virtualmachines:
+  - name: cloud-sandbox
+    image: rocky-linux-cloud/rocky-linux-9
+    shell: bash
+    machine_type: e2-highcpu-2
+gcp_projects:
+  - name: gcp-project-track
+    services:
+      - container.googleapis.com
+      - cloudresourcemanager.googleapis.com
+      - compute.googleapis.com
+      - iam.googleapis.com
+      - cloudkms.googleapis.com
+    roles: []
+aws_accounts:
+  - name: aws-iam-track
+    managed_policies:
+      - arn:aws:iam::aws:policy/AdministratorAccess
+azure_subscriptions:
+  - name: azure-subscription-track
+    roles:
+      - Contributor
