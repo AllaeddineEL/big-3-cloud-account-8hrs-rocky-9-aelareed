@@ -1,11 +1,11 @@
 resource "azurerm_resource_group" "rg" {
-  name     = "acme-demo-rg"
+  name     = "consul-multicloud"
   location = "westeurope"
 }
 
 
 module "network" {
-  source              = "app.terraform.io/aelareed-acme/network/azurerm"
+  source              = "Azure/network/azurerm"
   version             = "3.5.0"
   resource_group_name = azurerm_resource_group.rg.name
   address_space       = "10.52.0.0/16"
@@ -16,15 +16,15 @@ module "network" {
 
 
 module "aks" {
-  source                           = "app.terraform.io/aelareed-acme/aks/azurerm"
-  version                          = "4.17.0"
+  source                           = "Azure/aks/azurerm"
+  version                          = "6.5.0"
   resource_group_name              = azurerm_resource_group.rg.name
   client_id                        = var.client_id
   client_secret                    = var.client_secret
   kubernetes_version               = "1.23.5"
   orchestrator_version             = "1.23.5"
-  prefix                           = "demo"
-  cluster_name                     = "acme"
+  prefix                           = "consul-multicloud"
+  cluster_name                     = "consul-aks"
   network_plugin                   = "azure"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   enable_role_based_access_control = true
