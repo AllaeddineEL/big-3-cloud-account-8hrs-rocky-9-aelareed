@@ -101,5 +101,34 @@ firewall-cmd --reload
 code-server --install-extension hashicorp.terraform
 
 # Enable bash completion for kubectl
-echo "source /usr/share/bash-completion/bash_completion" >> /root/.bashrc
-echo "complete -F __start_kubectl k" >> /root/.bashrc
+
+mkdir ~/.kube
+## Load the kubectl completion code for bash into the current shell
+source <(kubectl completion bash)
+## Write bash completion code to a file and source it from .bash_profile
+
+kubectl completion bash > ~/.kube/completion.bash.inc
+printf "
+# Kubectl shell completion
+source '$HOME/.kube/completion.bash.inc'
+" >> $HOME/.bash_profile
+
+source $HOME/.bash_profile
+
+
+#get assets
+echo "cloning assets..."
+git clone https://github.com/AllaeddineEL/big-3-cloud-account-8hrs-rocky-9-aelareed.git
+
+cp -r big-3-cloud-account-8hrs-rocky-9-aelareed/assets/terraform .
+
+cat << EOF > /root/terraform/azure/terraform.tfvars
+client_id     = "$ARM_CLIENT_ID"
+client_secret = "$ARM_CLIENT_SECRET"
+EOF
+
+cat << EOF > /root/terraform/gcp/terraform.tfvars
+gcp_project_id="$(echo $INSTRUQT_GCP_PROJECT_CONSUL_PROJECT_ID)"
+EOF
+
+export GOOGLE_CREDENTIALS=$(echo $INSTRUQT_GCP_PROJECT_CONSUL_SERVICE_ACCOUNT_KEY | base64 -d)

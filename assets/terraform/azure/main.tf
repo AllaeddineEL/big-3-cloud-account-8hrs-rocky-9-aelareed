@@ -8,8 +8,9 @@ module "network" {
   source              = "Azure/network/azurerm"
   version             = "3.5.0"
   resource_group_name = azurerm_resource_group.rg.name
-  address_space       = "10.52.0.0/16"
-  subnet_prefixes     = ["10.52.0.0/24"]
+  vnet_name           = "consul"
+  address_space       = "10.0.0.0/16"
+  subnet_prefixes     = ["10.0.1.0/24"]
   subnet_names        = ["subnet1"]
   depends_on          = [azurerm_resource_group.rg]
 }
@@ -44,4 +45,9 @@ module "aks" {
 
   network_policy = "azure"
   depends_on     = [module.network]
+}
+
+resource "random_string" "suffix" {
+  length  = 8
+  special = false
 }

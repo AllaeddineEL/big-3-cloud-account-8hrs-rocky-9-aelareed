@@ -28,3 +28,14 @@ Sandbox environment
 ===============
 
 This challenge provides an 8-hour environment with provisioned AWS, Azure and GCP accounts.
+
+
+You will use Terraform to provision these services in the background while you set up Consul in the next few assignments. <br>
+
+Start with Vault. <br>
+
+```
+cd /root/terraform/vault
+terraform plan
+nohup terraform apply -auto-approve > /root/terraform/vault/terraform.out &
+```
