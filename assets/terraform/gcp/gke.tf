@@ -5,7 +5,7 @@ module "gcp-vpc-consul" {
   subnets = [
     {
       subnet_name           = "shared"
-      subnet_ip             = "10.1.0.0/24"
+      subnet_ip             = "10.0.1.0/24"
       subnet_region         = "us-central1"
       subnet_private_access = "false"
       subnet_flow_logs      = "true"

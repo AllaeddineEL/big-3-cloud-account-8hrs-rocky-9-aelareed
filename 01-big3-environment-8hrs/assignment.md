@@ -8,7 +8,10 @@ notes:
 - type: text
   contents: Please wait while we provision the instance and the cloud accounts.
 tabs:
-- title: Workstation terminal
+- title: Workstation terminal 1
+  type: terminal
+  hostname: cloud-sandbox
+- title: Workstation terminal 2
   type: terminal
   hostname: cloud-sandbox
 - title: Cloud account access
@@ -38,4 +41,12 @@ Start with Vault. <br>
 cd /root/terraform/vault
 terraform plan
 nohup terraform apply -auto-approve > /root/terraform/vault/terraform.out &
+```
+
+create the secret with name consul-ent-license and key key
+
+```
+secret=$(cat 1931d1f4-bdfd-6881-f3f5-19349374841f.hclic)
+kubectl create secret generic consul-ent-license --from-literal="key=${secret}" -n consul
+
 ```
