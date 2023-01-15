@@ -43,10 +43,27 @@ terraform plan
 nohup terraform apply -auto-approve > /root/terraform/vault/terraform.out &
 ```
 
+```
+aws eks \
+    update-kubeconfig \
+    --region $(terraform -chdir=terraform/aws output -raw region) \
+    --name $(terraform -chdir=terraform/aws output -raw cluster_name) \
+    --alias=$(terraform -chdir=terraform/aws output -raw cluster_name)
+```
+
 create the secret with name consul-ent-license and key key
 
 ```
 secret=$(cat 1931d1f4-bdfd-6881-f3f5-19349374841f.hclic)
 kubectl create secret generic consul-ent-license --from-literal="key=${secret}" -n consul
+```
 
 ```
+helm repo add hashicorp https://helm.releases.hashicorp.com
+```
+
+```
+helm install consul hashicorp/consul --values big-3-cloud-account-8hrs-rocky-9-aelareed/assets/terraform/helm/aws-values.yaml --namespace consul --version "1.0.2"
+```
+
+

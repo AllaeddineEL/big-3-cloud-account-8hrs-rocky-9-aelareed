@@ -2838,7 +2838,7 @@ terminatingGateways:
   # case of annotations where both will be applied.
   # @type: array<map>
   gateways:
-    - name: terminating-gateway
+    - name: eks-terminating-gateway
 
 # Configuration settings for the Consul API Gateway integration
 apiGateway:
