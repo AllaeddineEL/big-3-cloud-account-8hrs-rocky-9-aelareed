@@ -54,8 +54,12 @@ aws eks \
 create the secret with name consul-ent-license and key key
 
 ```
-secret=$(cat 1931d1f4-bdfd-6881-f3f5-19349374841f.hclic)
-kubectl create secret generic consul-ent-license --from-literal="key=${secret}" -n consul
+vim consul.hclic
+```
+
+```
+kubectl create --namespace consul secret generic consul-ent-license \
+  --from-literal=key=$(cat consul.hclic | tr -d '\n')
 ```
 
 ```
@@ -66,4 +70,18 @@ helm repo add hashicorp https://helm.releases.hashicorp.com
 helm install consul hashicorp/consul --values big-3-cloud-account-8hrs-rocky-9-aelareed/assets/terraform/helm/aws-values.yaml --namespace consul --version "1.0.2"
 ```
 
+
+```
+kubectl get secrets -nconsul consul-consul-ca-cert -oyaml > ca.crt
+```
+
+```
+kubectl get secret consul-consul-ca-cert -o yaml | \
+kubectl --context cluster-b apply -f -
+```
+
+```
+kubectl get secret consul-consul-ca-key -o yaml | \
+kubectl --context cluster-b apply -f -
+```
 
