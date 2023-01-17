@@ -18,16 +18,16 @@ tabs:
   type: service
   hostname: cloud-account-details
   path: /
-  port: 80  
+  port: 80
 - title: IDE
   type: service
   hostname: cloud-sandbox
   port: 8080
 - title: Consul UI
   type: service
-  hostname: localhost
+  hostname: cloud-sandbox
   path: /
-  port: 8443  
+  port: 8443
 difficulty: basic
 timelimit: 28800
 ---
