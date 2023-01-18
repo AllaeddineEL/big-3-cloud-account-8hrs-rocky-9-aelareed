@@ -430,7 +430,7 @@ global:
     # datacenter.
     # In secondary datacenters, the secret needs to be imported from the primary
     # datacenter and referenced via `global.acls.replicationToken`.
-    createReplicationToken: true
+    createReplicationToken: false
 
     # replicationToken references a secret containing the replication ACL token.
     # This token will be used by secondary datacenters to perform ACL replication
@@ -655,7 +655,7 @@ server:
   # within Kubernetes to join that cluster, this should probably be false.
   # @default: global.enabled
   # @type: boolean
-  enabled: false
+  enabled: "-"
 
   # The name of the Docker image (including any tag) for the containers running
   # Consul server agents.
@@ -720,7 +720,7 @@ server:
   # set `server.ports.serflan.port` to a port not being used on the host. Since
   # `client.exposeGossipPorts` uses the hostPort 8301,
   # `server.ports.serflan.port` must be set to something other than 8301.
-  exposeGossipAndRPCPorts: true
+  exposeGossipAndRPCPorts: false
 
   # Configures ports for the consul servers.
   ports:
@@ -1020,7 +1020,7 @@ server:
   exposeService:
     # When enabled, deploys a Kubernetes Service to reach the Consul servers.
     # @type: boolean
-    enabled: true
+    enabled: "-"
     # Type of service, supports LoadBalancer or NodePort.
     # @type: string
     type: LoadBalancer
@@ -1142,7 +1142,7 @@ externalServers:
   # wish to use separate hosts for the HTTPS connections.
   # @type: array<string>
   hosts:
-    - a80eceedb81c247bead44d5f0b62b862-1836516819.us-east-1.elb.amazonaws.com
+    - a572bb0851e5445769f8236dd9825b1a-47738419.us-east-1.elb.amazonaws.com
 
   # The HTTPS port of the Consul servers.
   httpsPort: 8501
@@ -1176,7 +1176,7 @@ externalServers:
   # ```
   #
   # @type: string
-  k8sAuthMethodHost: consul-multicloud-9ff3b98c.hcp.westeurope.azmk8s.io:443
+  k8sAuthMethodHost: https://522C19C027BF6DA5FC0629EFB229AAFF.gr7.eu-west-1.eks.amazonaws.com
 
   # If true, setting this prevents the consul-dataplane and consul-k8s components from watching the Consul servers for changes. This is
   # useful for situations where Consul servers are behind a load balancer.
@@ -1188,7 +1188,7 @@ client:
   # the resources necessary for a Consul client on every Kubernetes node. This _does not_ require
   # `server.enabled`, since the agents can be configured to join an external cluster.
   # @type: boolean
-  enabled: true
+  enabled: false
 
   # The name of the Docker image (including any tag) for the containers
   # running Consul client agents.
@@ -1202,8 +1202,7 @@ client:
   # join that cluster. If `server.enabled` is not true, then a value must be
   # specified so the clients can join a valid cluster.
   # @type: array<string>
-  join:
-    - a80eceedb81c247bead44d5f0b62b862-1836516819.us-east-1.elb.amazonaws.com
+  join: null
 
   # An absolute path to a directory on the host machine to use as the Consul
   # client data directory. If set to the empty string or null, the Consul agent
@@ -1231,7 +1230,7 @@ client:
   # This is only necessary if pod IPs in the k8s cluster are not directly routable
   # and the Consul servers are outside of the k8s cluster.
   # This also changes the clients' advertised IP to the `hostIP` rather than `podIP`.
-  exposeGossipPorts: true
+  exposeGossipPorts: false
 
   serviceAccount:
     # This value defines additional annotations for the client service account. This should be formatted as a multi-line
@@ -1470,13 +1469,13 @@ client:
 # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#configure-stub-domain-and-upstream-dns-servers
 dns:
   # @type: boolean
-  enabled: true
+  enabled: "-"
 
   # If true, services using Consul Connect will use Consul DNS
   # for default DNS resolution. The DNS lookups fall back to the nameserver IPs
   # listed in /etc/resolv.conf if not found in Consul.
   # @type: boolean
-  enableRedirection: true
+  enableRedirection: "-"
 
   # Used to control the type of service created. For
   # example, setting this to "LoadBalancer" will create an external load
@@ -1510,7 +1509,7 @@ ui:
   # configure `ui.service`.
   # @default: global.enabled
   # @type: boolean
-  enabled: true
+  enabled: "-"
 
   # Configure the service for the Consul UI.
   service:

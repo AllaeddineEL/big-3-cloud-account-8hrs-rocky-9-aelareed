@@ -43,7 +43,7 @@ global:
     # If true, the Helm chart will enable Admin Partitions for the cluster. The clients in the server cluster
     # must be installed in the default partition. Creation of Admin Partitions is only supported during installation.
     # Admin Partitions cannot be installed via a Helm upgrade operation. Only Helm installs are supported.
-    enabled: true
+    enabled: false
 
     # The name of the Admin Partition. The partition name cannot be modified once the partition has been installed.
     # Changing the partition name would require an un-install and a re-install with the updated name.
@@ -63,7 +63,7 @@ global:
   # image: "hashicorp/consul-enterprise:1.10.0-ent"
   # ```
   # @default: hashicorp/consul:<latest version>
-  image: "hashicorp/consul-enterprise:1.14.2-ent"
+  image: "hashicorp/consul:1.14.2"
 
   # Array of objects containing image pull secret names that will be applied to each service account.
   # This can be used to reference image pull secrets if using a custom consul or consul-k8s-control-plane Docker image.
@@ -303,7 +303,7 @@ global:
 
   gossipEncryption:
     # Automatically generate a gossip encryption key and save it to a Kubernetes or Vault secret.
-    autoGenerate: true
+    autoGenerate: false
     # The name of the Kubernetes secret or Vault secret path that holds the gossip
     # encryption key. A Kubernetes secret must be in the same namespace that Consul is installed into.
     secretName: ""
@@ -326,20 +326,18 @@ global:
     # servers and clients and all consul-k8s-control-plane components, as well as generate certificate
     # authority (optional) and server and client certificates.
     # This setting is required for [Cluster Peering](/docs/connect/cluster-peering/k8s).
-    enabled: true
+    enabled: false
 
     # If true, turns on the auto-encrypt feature on clients and servers.
     # It also switches consul-k8s-control-plane components to retrieve the CA from the servers
     # via the API. Requires Consul 1.7.1+.
-    enableAutoEncrypt: true
+    enableAutoEncrypt: false
 
     # A list of additional DNS names to set as Subject Alternative Names (SANs)
     # in the server certificate. This is useful when you need to access the
     # Consul server(s) externally, for example, if you're using the UI.
     # @type: array<string>
-    serverAdditionalDNSSANs:
-      - "*.us-east-1.elb.amazonaws.com"
-      - "*.gr7.us-east-1.eks.amazonaws.com"
+    serverAdditionalDNSSANs: []
 
     # A list of additional IP addresses to set as Subject Alternative Names (SANs)
     # in the server certificate. This is useful when you need to access the
@@ -352,7 +350,7 @@ global:
     # Set this to false to incrementally roll out TLS on an existing Consul cluster.
     # Please see https://consul.io/docs/k8s/operations/tls-on-existing-cluster
     # for more details.
-    verify: false
+    verify: true
 
     # If true, the Helm chart will configure Consul to disable the HTTP port on
     # both clients and servers and to only accept HTTPS connections.
@@ -407,14 +405,14 @@ global:
   # the `default` Consul namespace. Additional configuration
   # options are found in the `consulNamespaces` section of both the catalog sync
   # and connect injector.
-  enableConsulNamespaces: true
+  enableConsulNamespaces: false
 
   # Configure ACLs.
   acls:
     # If true, the Helm chart will automatically manage ACL tokens and policies
     # for all Consul and consul-k8s-control-plane components.
     # This requires Consul >= 1.4.
-    manageSystemACLs: true
+    manageSystemACLs: false
 
     # A Kubernetes or Vault secret containing the bootstrap token to use for
     # creating policies and tokens for all Consul and consul-k8s-control-plane components.
@@ -488,10 +486,10 @@ global:
     # The name of the Kubernetes or Vault secret that holds the enterprise license.
     # A Kubernetes secret must be in the same namespace that Consul is installed into.
     # @type: string
-    secretName: consul-ent-license
+    secretName: null
     # The key within the Kubernetes or Vault secret that holds the enterprise license.
     # @type: string
-    secretKey: key
+    secretKey: null
     # Manages license autoload. Required in Consul 1.10.0+, 1.9.7+ and 1.8.12+.
     enableLicenseAutoload: true
 
@@ -667,7 +665,7 @@ server:
   # The number of server agents to run. This determines the fault tolerance of
   # the cluster. Please see the deployment table (https://consul.io/docs/internals/consensus#deployment-table)
   # for more information.
-  replicas: 3
+  replicas: 1
 
   # The number of servers that are expected to be running.
   # It defaults to server.replicas.
@@ -1646,7 +1644,7 @@ ui:
 syncCatalog:
   # True if you want to enable the catalog sync. Set to "-" to inherit from
   # global.enabled.
-  enabled: true
+  enabled: false
 
   # The name of the Docker image (including any tag) for consul-k8s-control-plane
   # to run the sync program.
@@ -2333,7 +2331,7 @@ meshGateway:
   # gateways and Consul Connect will be configured to use gateways.
   # This setting is required for [Cluster Peering](/docs/connect/cluster-peering/k8s).
   # Requirements: consul 1.6.0+ if using `global.acls.manageSystemACLs``.
-  enabled: true
+  enabled: false
 
   # Number of replicas for the Deployment.
   replicas: 1
@@ -2711,7 +2709,7 @@ ingressGateways:
 terminatingGateways:
   # Enable terminating gateway deployment. Requires `connectInject.enabled=true`
   # and `client.enabled=true`.
-  enabled: true
+  enabled: false
 
   # Defaults sets default values for all gateway fields. With the exception
   # of annotations, defining any of these values in the `gateways` list
@@ -2840,7 +2838,7 @@ terminatingGateways:
   # case of annotations where both will be applied.
   # @type: array<map>
   gateways:
-    - name: eks-terminating-gateway
+    - name: terminating-gateway
 
 # Configuration settings for the Consul API Gateway integration
 apiGateway:
