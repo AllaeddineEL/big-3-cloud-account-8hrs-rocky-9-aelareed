@@ -19,7 +19,8 @@ gcp_projects:
       - compute.googleapis.com
       - iam.googleapis.com
       - cloudkms.googleapis.com
-    roles: []
+    roles:
+      - roles/owner
 aws_accounts:
   - name: aws-iam-track
     managed_policies:

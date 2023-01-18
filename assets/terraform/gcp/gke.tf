@@ -13,8 +13,11 @@ resource "google_compute_subnetwork" "subnet" {
 }
 
 # GKE cluster
+data "google_compute_zones" "zones" {
+  region = var.region
+}
 resource "google_container_cluster" "primary" {
-  name     = "${var.project_id}-gke"
+  name     = "consul"
   location = var.region
 
   # We can't create a cluster with no node pool defined, but we want to only use
@@ -22,9 +25,10 @@ resource "google_container_cluster" "primary" {
   # node pool and immediately delete it.
   remove_default_node_pool = true
   initial_node_count       = 1
-
-  network    = google_compute_network.vpc.name
-  subnetwork = google_compute_subnetwork.subnet.name
+  min_master_version       = "1.22"
+  network                  = google_compute_network.vpc.name
+  subnetwork               = google_compute_subnetwork.subnet.name
+  node_locations           = slice(data.google_compute_zones.zones.names, 0, 1)
 }
 
 # Separately Managed Node Pool
@@ -41,7 +45,7 @@ resource "google_container_node_pool" "primary_nodes" {
     ]
 
     labels = {
-      env = var.project_id
+      env = var.gcp_project_id
     }
 
     # preemptible  = true

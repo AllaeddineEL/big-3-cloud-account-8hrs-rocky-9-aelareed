@@ -121,3 +121,10 @@ kubectl --context consul-eks get consul-consul-ca-key -n consul -o yaml | \
 kubectl --context consul-aks-admin apply -f -
 ```
 
+
+GCP
+
+```
+export GOOGLE_CREDENTIALS=$(echo $INSTRUQT_GCP_PROJECT_GCP_PROJECT_TRACK_SERVICE_ACCOUNT_KEY | base64 -d)
+gcloud container clusters get-credentials consul --region us-central1 --project $INSTRUQT_GCP_PROJECT_GCP_PROJECT_TRACK_PROJECT_ID
+```

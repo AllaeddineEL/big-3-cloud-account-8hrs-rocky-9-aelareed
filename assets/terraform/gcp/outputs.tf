@@ -1,11 +1,19 @@
-output "gcp_gke_cluster_shared_name" {
-  value = google_container_cluster.consul.name
+output "region" {
+  value       = var.region
+  description = "GCloud Region"
 }
 
-output "gcp_shared_svcs_network_self_link" {
-  value = module.gcp-vpc-consul.network_self_link
+output "project_id" {
+  value       = var.gcp_project_id
+  description = "GCloud Project ID"
 }
 
-output "gcp_consul_service_account_email" {
-  value = google_service_account.consul.email
+output "kubernetes_cluster_name" {
+  value       = google_container_cluster.primary.name
+  description = "GKE Cluster Name"
+}
+
+output "kubernetes_cluster_host" {
+  value       = google_container_cluster.primary.endpoint
+  description = "GKE Cluster Host"
 }
