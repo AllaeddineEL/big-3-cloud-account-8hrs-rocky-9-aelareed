@@ -7,7 +7,7 @@ global:
   # this default via its component-specific "enabled" config. If false, no components
   # will be installed by default and per-component opt-in is required, such as by
   # setting `server.enabled` to true.
-  enabled: true
+  enabled: false
 
   # The default log level to apply to all components which do not otherwise override this setting.
   # It is recommended to generally not set this below "info" unless actively debugging due to logging verbosity.
@@ -306,7 +306,7 @@ global:
     autoGenerate: false
     # The name of the Kubernetes secret or Vault secret path that holds the gossip
     # encryption key. A Kubernetes secret must be in the same namespace that Consul is installed into.
-    secretName: "server-gossip-encryption-key"
+    secretName: "consul-consul-gossip-encryption-key"
     # The key within the Kubernetes secret or Vault secret key that holds the gossip
     # encryption key.
     secretKey: "key"
@@ -420,7 +420,7 @@ global:
     # initialize ACLs for the Consul clients and consul-k8s-control-plane system components.
     bootstrapToken:
       # The name of the Kubernetes or Vault secret that holds the bootstrap token.
-      secretName: server-partitions-acl-token
+      secretName: consul-consul-partitions-acl-token
       # The key within the Kubernetes or Vault secret that holds the bootstrap token.
       secretKey: token
 
@@ -1141,7 +1141,8 @@ externalServers:
   # should be the same, however, they may be different if you
   # wish to use separate hosts for the HTTPS connections.
   # @type: array<string>
-  hosts: []
+  hosts:
+    - a80eceedb81c247bead44d5f0b62b862-1836516819.us-east-1.elb.amazonaws.com
 
   # The HTTPS port of the Consul servers.
   httpsPort: 8501
@@ -1175,7 +1176,7 @@ externalServers:
   # ```
   #
   # @type: string
-  k8sAuthMethodHost: YourValueGoesHere
+  k8sAuthMethodHost: consul-multicloud-9ff3b98c.hcp.westeurope.azmk8s.io:443
 
   # If true, setting this prevents the consul-dataplane and consul-k8s components from watching the Consul servers for changes. This is
   # useful for situations where Consul servers are behind a load balancer.
@@ -1201,7 +1202,8 @@ client:
   # join that cluster. If `server.enabled` is not true, then a value must be
   # specified so the clients can join a valid cluster.
   # @type: array<string>
-  join: null
+  join:
+    - a80eceedb81c247bead44d5f0b62b862-1836516819.us-east-1.elb.amazonaws.com
 
   # An absolute path to a directory on the host machine to use as the Consul
   # client data directory. If set to the empty string or null, the Consul agent

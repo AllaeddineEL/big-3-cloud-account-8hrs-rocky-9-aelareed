@@ -56,6 +56,12 @@ aws eks \
     --alias=$(terraform -chdir=terraform/aws output -raw cluster_name)
 ```
 
+create consul Namespace in EKS cluster
+
+```
+kubectl create ns consul
+```
+
 create the secret with name consul-ent-license and key key
 
 ```
@@ -77,16 +83,41 @@ helm install consul hashicorp/consul --values big-3-cloud-account-8hrs-rocky-9-a
 
 
 ```
-kubectl get secrets -nconsul consul-consul-ca-cert -oyaml > ca.crt
+az login
 ```
 
 ```
-kubectl get secret consul-consul-ca-cert -o yaml | \
-kubectl --context cluster-b apply -f -
+az aks get-credentials --resource-group consul-multicloud --name consul-aks -a
+```
+
+create consul Namespace in AKS cluster
+
+```
+kubectl create ns consul
 ```
 
 ```
-kubectl get secret consul-consul-ca-key -o yaml | \
-kubectl --context cluster-b apply -f -
+kubectl --context consul-eks get secret consul-consul-ca-cert -n consul -o yaml | \
+kubectl --context consul-aks-admin apply -f -
+```
+
+```
+kubectl --context consul-eks get secret consul-consul-ca-key -n consul -o yaml | \
+kubectl --context consul-aks-admin apply -f -
+```
+
+```
+kubectl --context consul-eks get secret consul-consul-gossip-encryption-key -n consul -o yaml | \
+kubectl --context consul-aks-admin apply -f -
+```
+
+```
+kubectl --context consul-eks get secret consul-consul-partitions-acl-token -n consul -o yaml | \
+kubectl --context consul-aks-admin apply -f -
+```
+
+```
+kubectl --context consul-eks get consul-consul-ca-key -n consul -o yaml | \
+kubectl --context consul-aks-admin apply -f -
 ```
 
