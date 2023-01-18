@@ -7,7 +7,7 @@ global:
   # this default via its component-specific "enabled" config. If false, no components
   # will be installed by default and per-component opt-in is required, such as by
   # setting `server.enabled` to true.
-  enabled: false
+  enabled: true
 
   # The default log level to apply to all components which do not otherwise override this setting.
   # It is recommended to generally not set this below "info" unless actively debugging due to logging verbosity.
@@ -337,22 +337,22 @@ global:
     # in the server certificate. This is useful when you need to access the
     # Consul server(s) externally, for example, if you're using the UI.
     # @type: array<string>
-    serverAdditionalDNSSANs: []
+    serverAdditionalDNSSANs:
+      - "*.us-east-1.elb.amazonaws.com"
+      - "*.gr7.us-east-1.eks.amazonaws.com"
 
     # A list of additional IP addresses to set as Subject Alternative Names (SANs)
     # in the server certificate. This is useful when you need to access the
     # Consul server(s) externally, for example, if you're using the UI.
     # @type: array<string>
-    serverAdditionalIPSANs:
-      - "*.us-east-1.elb.amazonaws.com"
-      - "*.gr7.us-east-1.eks.amazonaws.com"
+    serverAdditionalIPSANs: []
 
     # If true, `verify_outgoing`, `verify_server_hostname`,
     # and `verify_incoming` for internal RPC communication will be set to `true` for Consul servers and clients.
     # Set this to false to incrementally roll out TLS on an existing Consul cluster.
     # Please see https://consul.io/docs/k8s/operations/tls-on-existing-cluster
     # for more details.
-    verify: true
+    verify: false
 
     # If true, the Helm chart will configure Consul to disable the HTTP port on
     # both clients and servers and to only accept HTTPS connections.
