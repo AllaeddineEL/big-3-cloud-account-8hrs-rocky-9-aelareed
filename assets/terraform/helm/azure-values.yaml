@@ -543,12 +543,12 @@ global:
     # to expose Prometheus metrics for the Consul service mesh. By default
     # this includes gateway metrics and sidecar metrics.
     # @type: boolean
-    enabled: false
+    enabled: true
 
     # Configures consul agent metrics. Only applicable if
     # `global.metrics.enabled` is true.
     # @type: boolean
-    enableAgentMetrics: false
+    enableAgentMetrics: true
 
     # Configures the retention time for metrics in Consul clients and
     # servers. This must be greater than 0 for Consul clients and servers
@@ -1142,7 +1142,7 @@ externalServers:
   # wish to use separate hosts for the HTTPS connections.
   # @type: array<string>
   hosts:
-    - a572bb0851e5445769f8236dd9825b1a-47738419.us-east-1.elb.amazonaws.com
+    - a8c40713b858346ed865247f4a82f348-24526304.us-east-1.elb.amazonaws.com
 
   # The HTTPS port of the Consul servers.
   httpsPort: 8501
@@ -1176,7 +1176,7 @@ externalServers:
   # ```
   #
   # @type: string
-  k8sAuthMethodHost: https://522C19C027BF6DA5FC0629EFB229AAFF.gr7.eu-west-1.eks.amazonaws.com
+  k8sAuthMethodHost: https://consul-multicloud-efb5792c.hcp.westeurope.azmk8s.io:443
 
   # If true, setting this prevents the consul-dataplane and consul-k8s components from watching the Consul servers for changes. This is
   # useful for situations where Consul servers are behind a load balancer.
@@ -1469,13 +1469,13 @@ client:
 # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#configure-stub-domain-and-upstream-dns-servers
 dns:
   # @type: boolean
-  enabled: "-"
+  enabled: true
 
   # If true, services using Consul Connect will use Consul DNS
   # for default DNS resolution. The DNS lookups fall back to the nameserver IPs
   # listed in /etc/resolv.conf if not found in Consul.
   # @type: boolean
-  enableRedirection: "-"
+  enableRedirection: true
 
   # Used to control the type of service created. For
   # example, setting this to "LoadBalancer" will create an external load
@@ -1509,7 +1509,7 @@ ui:
   # configure `ui.service`.
   # @default: global.enabled
   # @type: boolean
-  enabled: "-"
+  enabled: true
 
   # Configure the service for the Consul UI.
   service:
@@ -1520,7 +1520,7 @@ ui:
 
     # The service type to register.
     # @type: string
-    type: null
+    type: LoadBalancer
 
     # Set the port value of the UI service.
     port:
@@ -2048,7 +2048,7 @@ connectInject:
     # Configures the consul-dataplane to run a merged metrics server
     # to combine and serve both Envoy and Connect service metrics.
     # This feature is available only in Consul v1.10.0 or greater.
-    defaultEnableMerging: false
+    defaultEnableMerging: true
     # Configures the port at which the consul-dataplane will listen on to return
     # combined metrics. This port only needs to be changed if it conflicts with
     # the application's ports.
@@ -2544,7 +2544,7 @@ meshGateway:
 ingressGateways:
   # Enable ingress gateway deployment. Requires `connectInject.enabled=true`
   # and `client.enabled=true`.
-  enabled: false
+  enabled: true
 
   # Defaults sets default values for all gateway fields. With the exception
   # of annotations, defining any of these values in the `gateways` list
@@ -2559,7 +2559,7 @@ ingressGateways:
     service:
       # Type of service: LoadBalancer, ClusterIP or NodePort. If using NodePort service
       # type, you must set the desired nodePorts in the `ports` setting below.
-      type: ClusterIP
+      type: LoadBalancer
 
       # Ports that will be exposed on the service and gateway container. Any
       # ports defined as ingress listeners on the gateway's Consul configuration
@@ -3035,7 +3035,7 @@ webhookCertManager:
 prometheus:
   # When true, the Helm chart will install a demo Prometheus server instance
   # alongside Consul.
-  enabled: false
+  enabled: true
 
 # Control whether a test Pod manifest is generated when running helm template.
 # When using helm install, the test Pod is not submitted to the cluster so this
