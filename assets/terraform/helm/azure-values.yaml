@@ -306,10 +306,10 @@ global:
     autoGenerate: false
     # The name of the Kubernetes secret or Vault secret path that holds the gossip
     # encryption key. A Kubernetes secret must be in the same namespace that Consul is installed into.
-    secretName: "consul-consul-gossip-encryption-key"
+    secretName: ""
     # The key within the Kubernetes secret or Vault secret key that holds the gossip
     # encryption key.
-    secretKey: "key"
+    secretKey: ""
 
   # A list of addresses of upstream DNS servers that are used to recursively resolve DNS queries.
   # These values are given as `-recursor` flags to Consul servers and clients.
@@ -331,7 +331,7 @@ global:
     # If true, turns on the auto-encrypt feature on clients and servers.
     # It also switches consul-k8s-control-plane components to retrieve the CA from the servers
     # via the API. Requires Consul 1.7.1+.
-    enableAutoEncrypt: true
+    enableAutoEncrypt: false
 
     # A list of additional DNS names to set as Subject Alternative Names (SANs)
     # in the server certificate. This is useful when you need to access the
@@ -350,7 +350,7 @@ global:
     # Set this to false to incrementally roll out TLS on an existing Consul cluster.
     # Please see https://consul.io/docs/k8s/operations/tls-on-existing-cluster
     # for more details.
-    verify: false
+    verify: true
 
     # If true, the Helm chart will configure Consul to disable the HTTP port on
     # both clients and servers and to only accept HTTPS connections.
@@ -430,7 +430,7 @@ global:
     # datacenter.
     # In secondary datacenters, the secret needs to be imported from the primary
     # datacenter and referenced via `global.acls.replicationToken`.
-    createReplicationToken: true
+    createReplicationToken: false
 
     # replicationToken references a secret containing the replication ACL token.
     # This token will be used by secondary datacenters to perform ACL replication
@@ -665,7 +665,7 @@ server:
   # The number of server agents to run. This determines the fault tolerance of
   # the cluster. Please see the deployment table (https://consul.io/docs/internals/consensus#deployment-table)
   # for more information.
-  replicas: 3
+  replicas: 1
 
   # The number of servers that are expected to be running.
   # It defaults to server.replicas.
@@ -1520,7 +1520,7 @@ ui:
 
     # The service type to register.
     # @type: string
-    type: LoadBalancer
+    type: null
 
     # Set the port value of the UI service.
     port:

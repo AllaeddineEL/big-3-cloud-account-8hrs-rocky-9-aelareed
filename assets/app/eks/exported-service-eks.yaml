@@ -4,7 +4,10 @@ metadata:
   name: default
 spec:
   services:
-    - name: postgres
+    - name: mesh-gateway
+      consumers:
+        - partition: aks
+    - name: product-api-db
       namespace: default
       consumers:
         - partition: aks

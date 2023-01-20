@@ -1,8 +1,6 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: ServiceIntentions
 metadata:
-  # The metadata name is the destination service name and
-  # matches the spec.destination.name value.
   name: product-api-db
   namespace: default
 spec:

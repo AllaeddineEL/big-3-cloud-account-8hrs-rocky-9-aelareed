@@ -4,6 +4,9 @@ metadata:
   name: aks
 spec:
   services:
+    - name: mesh-gateway
+      consumers:
+        - partition: default
     - name: product-api
       namespace: default
       consumers:
