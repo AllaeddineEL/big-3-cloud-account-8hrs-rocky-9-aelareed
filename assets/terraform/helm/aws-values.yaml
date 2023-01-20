@@ -303,7 +303,7 @@ global:
 
   gossipEncryption:
     # Automatically generate a gossip encryption key and save it to a Kubernetes or Vault secret.
-    autoGenerate: false
+    autoGenerate: true
     # The name of the Kubernetes secret or Vault secret path that holds the gossip
     # encryption key. A Kubernetes secret must be in the same namespace that Consul is installed into.
     secretName: ""
@@ -432,7 +432,7 @@ global:
     # datacenter.
     # In secondary datacenters, the secret needs to be imported from the primary
     # datacenter and referenced via `global.acls.replicationToken`.
-    createReplicationToken: false
+    createReplicationToken: true
 
     # replicationToken references a secret containing the replication ACL token.
     # This token will be used by secondary datacenters to perform ACL replication
@@ -545,12 +545,12 @@ global:
     # to expose Prometheus metrics for the Consul service mesh. By default
     # this includes gateway metrics and sidecar metrics.
     # @type: boolean
-    enabled: true
+    enabled: false
 
     # Configures consul agent metrics. Only applicable if
     # `global.metrics.enabled` is true.
     # @type: boolean
-    enableAgentMetrics: true
+    enableAgentMetrics: false
 
     # Configures the retention time for metrics in Consul clients and
     # servers. This must be greater than 0 for Consul clients and servers
@@ -722,7 +722,7 @@ server:
   # set `server.ports.serflan.port` to a port not being used on the host. Since
   # `client.exposeGossipPorts` uses the hostPort 8301,
   # `server.ports.serflan.port` must be set to something other than 8301.
-  exposeGossipAndRPCPorts: false
+  exposeGossipAndRPCPorts: true
 
   # Configures ports for the consul servers.
   ports:
@@ -3036,7 +3036,7 @@ webhookCertManager:
 prometheus:
   # When true, the Helm chart will install a demo Prometheus server instance
   # alongside Consul.
-  enabled: true
+  enabled: false
 
 # Control whether a test Pod manifest is generated when running helm template.
 # When using helm install, the test Pod is not submitted to the cluster so this
