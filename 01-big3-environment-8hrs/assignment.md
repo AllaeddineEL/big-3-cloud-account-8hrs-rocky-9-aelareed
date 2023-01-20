@@ -81,6 +81,9 @@ helm repo add hashicorp https://helm.releases.hashicorp.com
 helm install consul hashicorp/consul --values big-3-cloud-account-8hrs-rocky-9-aelareed/assets/terraform/helm/aws-values.yaml --namespace consul --version "1.0.2"
 ```
 
+```
+kubectl get services --selector="app=consul,component=server" --namespace consul --output jsonpath="{range .items[*]}{@.status.loadBalancer.ingress[*].hostname}{end}"
+```
 
 ```
 az login

@@ -1142,7 +1142,7 @@ externalServers:
   # wish to use separate hosts for the HTTPS connections.
   # @type: array<string>
   hosts:
-    - a8c40713b858346ed865247f4a82f348-24526304.us-east-1.elb.amazonaws.com
+    - a97a4da2a88484153813d46df0bdf433-945809519.us-east-1.elb.amazonaws.com
 
   # The HTTPS port of the Consul servers.
   httpsPort: 8501
@@ -1176,7 +1176,7 @@ externalServers:
   # ```
   #
   # @type: string
-  k8sAuthMethodHost: https://consul-multicloud-efb5792c.hcp.westeurope.azmk8s.io:443
+  k8sAuthMethodHost: https://consul-multicloud-a762112e.hcp.westeurope.azmk8s.io:443
 
   # If true, setting this prevents the consul-dataplane and consul-k8s components from watching the Consul servers for changes. This is
   # useful for situations where Consul servers are behind a load balancer.

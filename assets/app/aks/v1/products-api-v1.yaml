@@ -37,9 +37,10 @@ metadata:
   name: db-configmap
   namespace: default
 data:
+  # backend.virtual.back.ns.red.ap.dc1.dc.consul:9091"
   config: |
     {
-      "db_connection": "host=product-api-db port=5432 user=postgres password=password dbname=products sslmode=disable",
+      "db_connection": "host=product-api-db.virtual.default.ns.default.ap.dc1.dc.consul port=5432 user=postgres password=password dbname=products sslmode=disable",
       "bind_address": ":9090",
       "metrics_address": ":9103"
     }
