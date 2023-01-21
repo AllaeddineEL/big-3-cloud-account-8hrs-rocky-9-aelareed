@@ -543,12 +543,12 @@ global:
     # to expose Prometheus metrics for the Consul service mesh. By default
     # this includes gateway metrics and sidecar metrics.
     # @type: boolean
-    enabled: false
+    enabled: true
 
     # Configures consul agent metrics. Only applicable if
     # `global.metrics.enabled` is true.
     # @type: boolean
-    enableAgentMetrics: false
+    enableAgentMetrics: true
 
     # Configures the retention time for metrics in Consul clients and
     # servers. This must be greater than 0 for Consul clients and servers
@@ -3034,7 +3034,7 @@ webhookCertManager:
 prometheus:
   # When true, the Helm chart will install a demo Prometheus server instance
   # alongside Consul.
-  enabled: false
+  enabled: true
 
 # Control whether a test Pod manifest is generated when running helm template.
 # When using helm install, the test Pod is not submitted to the cluster so this
